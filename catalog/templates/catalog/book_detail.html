@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Title: {{ book.title }}</h1>
+
+  <p><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong>Summary:</strong> {{ book.summary }}</p>
+  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+  <p><strong>Language:</strong> {{ book.language }}</p>
+  <p><strong>Genre:</strong> {{ book.genre.all|join:", " }}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Copies</h4>
+ {% comment %} функция book.bookinstance_set.all(). Этот метод "автоматически" построен 
+ Django для того, чтобы вернуть набор BookInstance записей, связанных с конкретным Book. 
+ Этот метод необходим, потому что вы объявляете ForeignKeyполе (один ко многим) только 
+ в "одной" стороне отношения (the BookInstance). Поскольку вы ничего не делаете для 
+ объявления отношения в других ("многих") моделях, у него (the Book) нет никакого 
+ поля для получения набора связанных записей. Чтобы преодолеть эту проблему, Django 
+ создает соответствующую функцию "обратного поиска", которую вы можете использовать. 
+ Имя функции строится нижним корпусом имени модели, где ForeignKeyбыло объявлено, 
+ а затем _set(т. е. таким образом, функция, созданная в Bookis bookinstance_set()). {% endcomment %}
+    {% for copy in book.bookinstance_set.all %}
+      <hr>
+      {% comment %} Эта функция создается автоматически, поскольку BookInstance.status является 
+      полем выбора. Django автоматически создает метод get_FOO_display()для 
+      каждого поля выбора "Foo" в модели, который может быть использован для 
+      получения текущего значения поля. {% endcomment %}
+      <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ copy.get_status_display }}
+      </p>
+      {% if copy.status != 'a' %}
+        <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+      {% endif %}
+      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+      <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+    {% endfor %}
+  </div>
+{% endblock %}
