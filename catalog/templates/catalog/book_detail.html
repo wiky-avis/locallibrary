@@ -1,16 +1,17 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Title: {{ book.title }}</h1>
+  <h1>Название: {{ book.title }}</h1>
+  <p><a href='{% url "book-update" book.pk %}'>Редактировать</a>-<a href='{% url "book-delete" book.pk %}'>Удалить</a></p>
 
-  <p><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p> <!-- author detail link not yet defined -->
-  <p><strong>Summary:</strong> {{ book.summary }}</p>
+  <p><strong>Автор:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong>Резюме:</strong> {{ book.summary }}</p>
   <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-  <p><strong>Language:</strong> {{ book.language }}</p>
-  <p><strong>Genre:</strong> {{ book.genre.all|join:", " }}</p>
+  <p><strong>Язык:</strong> {{ book.language }}</p>
+  <p><strong>Жанр:</strong> {{ book.genre.all|join:", " }}</p>
 
   <div style="margin-left:20px;margin-top:20px">
-    <h4>Copies</h4>
+    <h4>Копии</h4>
  {% comment %} функция book.bookinstance_set.all(). Этот метод "автоматически" построен 
  Django для того, чтобы вернуть набор BookInstance записей, связанных с конкретным Book. 
  Этот метод необходим, потому что вы объявляете ForeignKeyполе (один ко многим) только 
@@ -30,9 +31,9 @@
         {{ copy.get_status_display }}
       </p>
       {% if copy.status != 'a' %}
-        <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+        <p><strong>Подлежит возврату:</strong> {{ copy.due_back }}</p>
       {% endif %}
-      <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+      <p><strong>Отпечаток:</strong> {{ copy.imprint }}</p>
       <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
     {% endfor %}
   </div>

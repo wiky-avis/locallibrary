@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
-{% block title %}<title>Local Library Домашняя</title>{% endblock %}
+{% block title %}<title>Local Library | Главная</title>{% endblock %}
 {% block content %}
-  <h1>LocalLibrary Домашняя</h1>
+  <h1>Local Library | Главная</h1>
   <p>Добро пожаловать в localbaribrary!</p>
   <h2>Динамическое содержание</h2>
   <p>Библиотека имеет следующую запись:</p>
@@ -12,4 +12,5 @@
     <li><strong>Доступные копии:</strong> {{ num_instances_available }}</li>
     <li><strong>Авторы:</strong> {{ num_authors }}</li>
   </ul>
+  <p>Вы посетили эту страницу {{ num_visits }} раз{% if num_visits > 1 %}а{% endif %}.</p>
 {% endblock %}

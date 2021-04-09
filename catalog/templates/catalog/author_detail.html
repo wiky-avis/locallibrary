@@ -4,6 +4,7 @@
 
 <h1>Автор: {{ author }} </h1>
 <p>{{author.date_of_birth}} - {% if author.date_of_death %}{{author.date_of_death}}{% endif %}</p>
+<p><a href='{% url "author-update" author.pk %}'>Редактировать</a>-<a href='{% url "author-delete" author.pk %}'>Удалить</a></p>
 
 <div style="margin-left:20px;margin-top:20px">
 <h4>Книги</h4>
